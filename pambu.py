@@ -239,8 +239,6 @@ def main():
     stdscr.nodelay(1)                       # Make getch() non-blocking
     stdscr.keypad(1)                        # Interpret escape sequences
 
-    maxy, maxx = stdscr.getmaxyx()
-
     snk = Snake(stdscr.getmaxyx())          # Initialize our Snake!!
 
     ch = None
