@@ -5,7 +5,9 @@ import curses.ascii
 from enum import Enum
 import locale
 import math
-
+import sys
+import time
+import signal
 
 class Direction(Enum):
     north, east, south, west = range(4)
@@ -16,6 +18,11 @@ class Direction(Enum):
                 (self == Direction.east and other == Direction.west) or
                 (self == Direction.west and other == Direction.east))
 
+def signal_handler(signal , frame):
+
+	curses.endwin()
+	print("Thanks for playing pambu!")
+	sys.exit(0)
 
 class Point:
     """A point represented by a *y* and *x* coordinate"""
@@ -230,6 +237,7 @@ class Snake:
 
 
 def main():
+    signal.signal(signal.SIGINT, signal_handler)
     locale.setlocale(locale.LC_ALL, "")     # Use system's default encoding
 
     stdscr = curses.initscr()               # Initialize
