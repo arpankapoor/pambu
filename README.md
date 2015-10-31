@@ -21,6 +21,10 @@ PLAY
 ----
 Use arrow keys to move the snake. `<ESC>` to exit.
 
+CONTRIBUTING
+------------
+Please install `flake8` and run `make lint` before pushing.
+
 TODO
 ----
 
