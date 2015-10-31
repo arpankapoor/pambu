@@ -26,3 +26,4 @@ TODO
 
 * Detect collision with self.
 * Allow passing through the wall.
+* Write appropriate exception handlers for clean exit
