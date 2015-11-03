@@ -132,6 +132,12 @@ class LineSegment:
         elif self.is_horizontal():
             window.hline(start_point.y, start_point.x, 0, length)
 
+    def lies_on(self, point):
+        if self.is_horizontal():
+           return point.x <= max(self.head.x, self.tail.x) and point.x >= min(self.head.x, self.tail.x) and point.y == self.head.y
+        if self.is_vertical():
+           return point.y <= max(self.head.y, self.tail.y) and point.y >= min(self.head.y, self.tail.y) and point.x == self.head.x
+
     def intersection_point(self, other):
         if isinstance(other, self.__class__):
             if self.head == other.head or self.head == other.tail:
@@ -210,6 +216,15 @@ class Snake:
             curr_seg.draw(window)
             curr_seg.join(prev_seg, window)
             prev_seg = curr_seg
+    def detect_collision(self):
+        head = self.points[0]
+        prev_seg = None
+        for prev_point, curr_point in zip(self.points[1:-1], self.points[2:]):
+            curr_seg = LineSegment(prev_point, curr_point)
+            if curr_seg.lies_on(head):
+               curses.endwin()
+               print("Collision Detected!")
+               sys.exit(0)
 
     def move(self, window, direction=None):
         """Move 1 unit in given direction"""
@@ -225,7 +240,7 @@ class Snake:
             new_head.move(direction)
             self.points.insert(0, new_head)
             self.direction = direction
-
+        self.detect_collision()
         last_seg.decrement()
         if last_seg.length() == 0:
             del self.points[-1]
